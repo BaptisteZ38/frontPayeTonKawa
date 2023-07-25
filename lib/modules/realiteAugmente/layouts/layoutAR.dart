@@ -32,7 +32,7 @@ class _LayoutAR extends State<LayoutAR> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Local / Web Objects"),
+        title: const Text("Réalité augmenté"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -49,20 +49,12 @@ class _LayoutAR extends State<LayoutAR> {
               ),
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
-                  child: ElevatedButton(
-                      onPressed: onLocalObjectButtonPressed,
-                      child: const Text("Add / Remove Local Object")),
+                ElevatedButton(
+                  onPressed: genereCafetiere,
+                  child: const Text("Faire apparaitre la cafetière"),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: ElevatedButton(
-                      onPressed: onWebObjectAtButtonPressed,
-                      child: const Text("Add / Remove Web Object")),
-                )
               ],
             ),
           ],
@@ -89,23 +81,7 @@ class _LayoutAR extends State<LayoutAR> {
     this.arObjectManager.onInitialize();
   }
 
-  Future<void> onLocalObjectButtonPressed() async {
-    if (localObjectNode != null) {
-      arObjectManager.removeNode(localObjectNode!);
-      localObjectNode = null;
-    } else {
-      var newNode = ARNode(
-          type: NodeType.localGLTF2,
-          uri: "assets/AR/mars.glb",
-          scale: Vector3(0.2, 0.2, 0.2),
-          position: Vector3(0.0, 0.0, 0.0),
-          rotation: Vector4(1.0, 0.0, 0.0, 0.0));
-      bool? didAddLocalNode = await arObjectManager.addNode(newNode);
-      localObjectNode = (didAddLocalNode!) ? newNode : null;
-    }
-  }
-
-  Future<void> onWebObjectAtButtonPressed() async {
+  Future<void> genereCafetiere() async {
     if (webObjectNode != null) {
       arObjectManager.removeNode(webObjectNode!);
       webObjectNode = null;
@@ -113,7 +89,7 @@ class _LayoutAR extends State<LayoutAR> {
       var newNode = ARNode(
           type: NodeType.webGLB,
           uri:
-              "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Fox/glTF-Binary/Fox.glb",
+              "https://raw.githubusercontent.com/BaptisteZ38/frontPayeTonKawa/realiteAugmente/assets/AR/mars.glb",
           scale: Vector3(0.2, 0.2, 0.2));
       bool? didAddWebNode = await arObjectManager.addNode(newNode);
       webObjectNode = (didAddWebNode!) ? newNode : null;
