@@ -29,3 +29,15 @@ subprojects {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
+
+plugins {
+  id "org.sonarqube" version "4.2.1.3168"
+}
+
+sonar {
+  properties {
+    property "sonar.projectKey", "BaptisteZ38_frontPayeTonKawa"
+    property "sonar.organization", "baptistez38"
+    property "sonar.host.url", "https://sonarcloud.io"
+  }
+}
