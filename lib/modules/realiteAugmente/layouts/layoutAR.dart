@@ -9,8 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart';
 
 class LayoutAR extends StatefulWidget {
-  const LayoutAR({Key? key}) : super(key: key);
+  const LayoutAR({Key? key, required this.nom}) : super(key: key);
 
+  final String nom;
   @override
   State<LayoutAR> createState() => _LayoutAR();
 }
@@ -32,7 +33,7 @@ class _LayoutAR extends State<LayoutAR> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Réalité augmenté"),
+        title: const Text("Réalité augmentée"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -52,8 +53,10 @@ class _LayoutAR extends State<LayoutAR> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  onPressed: genereCafetiere,
-                  child: const Text("Faire apparaitre la cafetière"),
+                  onPressed: () {
+                    genereCafetiere(widget.nom);
+                  },
+                  child: const Text("Faire apparaître la cafetière"),
                 ),
               ],
             ),
@@ -81,16 +84,27 @@ class _LayoutAR extends State<LayoutAR> {
     this.arObjectManager.onInitialize();
   }
 
-  Future<void> genereCafetiere() async {
+  Future<void> genereCafetiere(String nom) async {
+    String url = "";
     if (webObjectNode != null) {
       arObjectManager.removeNode(webObjectNode!);
       webObjectNode = null;
     } else {
+      if (nom == "Senseo") {
+        url =
+            "https://raw.githubusercontent.com/BaptisteZ38/frontPayeTonKawa/realiteAugmente/assets/AR/Senseo.glb";
+      } else if (nom == "Krups") {
+        url =
+            "https://raw.githubusercontent.com/BaptisteZ38/frontPayeTonKawa/realiteAugmente/assets/AR/Krups.glb";
+      } else if (nom == "Phillips") {
+        url =
+            "https://raw.githubusercontent.com/BaptisteZ38/frontPayeTonKawa/realiteAugmente/assets/AR/Phillips.glb";
+      }
       var newNode = ARNode(
-          type: NodeType.webGLB,
-          uri:
-              "https://raw.githubusercontent.com/BaptisteZ38/frontPayeTonKawa/realiteAugmente/assets/AR/mars.glb",
-          scale: Vector3(0.2, 0.2, 0.2));
+        type: NodeType.webGLB,
+        uri: url,
+        scale: Vector3(0.2, 0.2, 0.2),
+      );
       bool? didAddWebNode = await arObjectManager.addNode(newNode);
       webObjectNode = (didAddWebNode!) ? newNode : null;
     }

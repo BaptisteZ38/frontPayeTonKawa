@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:front_paye_ton_kawa/config/constants/color_theme.dart';
+import 'package:front_paye_ton_kawa/controllers/qrCodeController.dart';
 import 'package:front_paye_ton_kawa/modules/connexion/components/button.dart';
 import 'package:front_paye_ton_kawa/modules/connexion/components/textInput.dart';
 import 'package:front_paye_ton_kawa/modules/connexion/views/indexQR.dart';
+import 'package:front_paye_ton_kawa/utils/provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class LayoutLogin extends HookConsumerWidget {
@@ -22,7 +23,7 @@ class LayoutLogin extends HookConsumerWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 80),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
               Text(
@@ -30,7 +31,7 @@ class LayoutLogin extends HookConsumerWidget {
                 style: Theme.of(context)
                     .textTheme
                     .displayMedium
-                    ?.copyWith(color: AppColor.primary80),
+                    ?.copyWith(color: AppColor.primary80, fontSize: 25),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(
@@ -71,8 +72,21 @@ class LayoutLogin extends HookConsumerWidget {
                 text: "Envoyer",
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    Future.delayed(const Duration(milliseconds: 1000), () {
-                      Navigator.push(context, MaterialPageRoute( builder: (context) => IndexQR()),);
+                    QRCodeController qrCodeController = QRCodeController();
+                    String email = ref.watch(inputValueProvider);
+                    email = email.replaceAll('@', '%40');
+                    qrCodeController.getQRCode(email).then((qrCodeData) {
+                      if (qrCodeData != "") {
+                        Future.delayed(const Duration(milliseconds: 1000), () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => IndexQR()),
+                          );
+                        });
+                      } else {
+                        // La requête a échoué
+                        print('La requête a échoué.');
+                      }
                     });
                   }
                 },

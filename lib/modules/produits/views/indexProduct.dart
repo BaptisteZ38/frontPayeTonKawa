@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:front_paye_ton_kawa/config/constants/color_theme.dart';
 import 'package:front_paye_ton_kawa/modules/produits/layouts/layoutProduct.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -13,10 +13,16 @@ class IndexProduct extends HookConsumerWidget{
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pop(); // Action pour revenir à la page précédente
+            Navigator.of(context).pop();
           },
         ),
-        title: Text("Détail du produit"),
+        title: Text(
+          "Détail du produit",
+          style: Theme.of(context)
+              .textTheme
+              .displayMedium
+              ?.copyWith(color: AppColor.primary80, fontSize: 25),
+        ),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -29,3 +35,4 @@ class IndexProduct extends HookConsumerWidget{
   }
   
 }
+                                   

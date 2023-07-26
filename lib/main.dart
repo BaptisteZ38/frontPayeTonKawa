@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:front_paye_ton_kawa/modules/produits/views/indexProductList.dart';
+import 'package:front_paye_ton_kawa/modules/connexion/views/indexAccueil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           titleTextStyle: GoogleFonts.nunito(color: Colors.black, fontSize: 20),
         ),
       ),
-      home: const IndexProductList()
+      home: const IndexAccueil()
     );
   }
 }
