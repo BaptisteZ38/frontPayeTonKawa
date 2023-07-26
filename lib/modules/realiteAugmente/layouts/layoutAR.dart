@@ -75,24 +75,34 @@ class _LayoutAR extends State<LayoutAR> {
     this.arObjectManager = arObjectManager;
 
     this.arSessionManager.onInitialize(
-      showFeaturePoints: false,
-      showPlanes: true,
-      customPlaneTexturePath: "assets/triangle.png",
-      showWorldOrigin: true,
-      handleTaps: false,
-    );
+          showFeaturePoints: false,
+          showPlanes: true,
+          customPlaneTexturePath: "assets/triangle.png",
+          showWorldOrigin: true,
+          handleTaps: false,
+        );
     this.arObjectManager.onInitialize();
   }
 
   Future<void> genereCafetiere(String nom) async {
+    String url = "";
     if (webObjectNode != null) {
       arObjectManager.removeNode(webObjectNode!);
       webObjectNode = null;
     } else {
+      if (nom == "Senseo") {
+        url =
+            "https://raw.githubusercontent.com/BaptisteZ38/frontPayeTonKawa/realiteAugmente/assets/AR/Senseo.glb";
+      } else if (nom == "Krups") {
+        url =
+            "https://raw.githubusercontent.com/BaptisteZ38/frontPayeTonKawa/realiteAugmente/assets/AR/Krups.glb";
+      } else if (nom == "Phillips") {
+        url =
+            "https://raw.githubusercontent.com/BaptisteZ38/frontPayeTonKawa/realiteAugmente/assets/AR/Phillips.glb";
+      }
       var newNode = ARNode(
         type: NodeType.webGLB,
-        uri:
-            "https://raw.githubusercontent.com/BaptisteZ38/frontPayeTonKawa/realiteAugmente/assets/AR/$nom.glb",
+        uri: url,
         scale: Vector3(0.2, 0.2, 0.2),
       );
       bool? didAddWebNode = await arObjectManager.addNode(newNode);

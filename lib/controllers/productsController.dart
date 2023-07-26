@@ -4,8 +4,8 @@ import 'package:front_paye_ton_kawa/models/products.dart';
 import 'package:http/http.dart' as http;
 
 class ProductsController {
-  Future<List<Products>> getAllProducts() async {
-    String urlString = '$ipaddress/api/v1/products';
+  Future<List<Products>> getAllProducts(final String token) async {
+    String urlString = '$ipaddress/api/v1/products?token=$token';
     final response = await http.get(Uri.parse(urlString));
     if (response.statusCode == 200) {
       // La requête a réussi
@@ -21,8 +21,10 @@ class ProductsController {
     }
   }
 
-   Future<Products> getProductsById(final String id_product) async {
-    String urlString = '$ipaddress/api/v1/products/${id_product}';
+  Future<Products> getProductsById(
+      final String id_product, final String token) async {
+    String urlString =
+        '$ipaddress/api/v1/products/${id_product}?token=$token';
     final response = await http.get(Uri.parse(urlString));
     if (response.statusCode == 200) {
       // La requête a réussi

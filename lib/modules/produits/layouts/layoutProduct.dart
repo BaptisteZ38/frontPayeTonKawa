@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:front_paye_ton_kawa/config/constants/color_theme.dart';
 import 'package:front_paye_ton_kawa/controllers/productsController.dart';
 import 'package:front_paye_ton_kawa/models/products.dart';
 import 'package:front_paye_ton_kawa/modules/connexion/components/button.dart';
 import 'package:front_paye_ton_kawa/modules/realiteAugmente/layouts/layoutAR.dart';
-import 'package:front_paye_ton_kawa/modules/realiteAugmente/views/indexAR.dart';
+import 'package:front_paye_ton_kawa/utils/provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class LayoutProduct extends HookConsumerWidget {
@@ -16,8 +15,9 @@ class LayoutProduct extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productsController = ProductsController();
+    final token = ref.watch(tokenProvider);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 60),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
         children: [
           const SizedBox(
@@ -25,7 +25,7 @@ class LayoutProduct extends HookConsumerWidget {
           ),
           Expanded(
             child: FutureBuilder<Products>(
-              future: productsController.getProductsById(idProduct),
+              future: productsController.getProductsById(idProduct, token),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -57,8 +57,10 @@ class LayoutProduct extends HookConsumerWidget {
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(16.0),
-                            child: Image.network('assets/${product.name}.png',
-                                fit: BoxFit.cover),
+                            child: Image(
+                              image: AssetImage('assets/${product.name}.png'),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                         SizedBox(height: 20),
@@ -95,7 +97,7 @@ class LayoutProduct extends HookConsumerWidget {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          'Description produit: ${product.description}',
+                          'Description produit : ${product.description}',
                           style: TextStyle(fontSize: 16),
                         ),
                         SizedBox(height: 10),
@@ -128,7 +130,8 @@ class LayoutProduct extends HookConsumerWidget {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => LayoutAR(nom: product.name ?? ""),
+                                builder: (context) =>
+                                    LayoutAR(nom: product.name ?? ""),
                               ),
                             );
                           },

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:front_paye_ton_kawa/config/constants/color_theme.dart';
 import 'package:front_paye_ton_kawa/modules/connexion/components/button.dart';
 import 'package:front_paye_ton_kawa/modules/connexion/components/scanQRCode.dart';
-//import 'package:front_paye_ton_kawa/utils/provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class LayoutQR extends HookConsumerWidget {
@@ -11,11 +9,10 @@ class LayoutQR extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //final email = ref.watch(inputValueProvider);
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 80),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
               Text(
@@ -23,7 +20,7 @@ class LayoutQR extends HookConsumerWidget {
                 style: Theme.of(context)
                     .textTheme
                     .displayMedium
-                    ?.copyWith(color: AppColor.primary80, fontSize: 40),
+                    ?.copyWith(color: AppColor.primary80, fontSize: 25),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(

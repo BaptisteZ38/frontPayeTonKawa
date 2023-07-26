@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:front_paye_ton_kawa/config/constants/color_theme.dart';
 import 'package:front_paye_ton_kawa/modules/produits/layouts/layoutProduct.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -22,7 +21,7 @@ class IndexProduct extends HookConsumerWidget{
           style: Theme.of(context)
               .textTheme
               .displayMedium
-              ?.copyWith(color: AppColor.primary80, fontSize: 40),
+              ?.copyWith(color: AppColor.primary80, fontSize: 25),
         ),
         centerTitle: true,
       ),
@@ -36,3 +35,4 @@ class IndexProduct extends HookConsumerWidget{
   }
   
 }
+                                   

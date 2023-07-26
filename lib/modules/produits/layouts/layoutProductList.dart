@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:front_paye_ton_kawa/controllers/productsController.dart';
 import 'package:front_paye_ton_kawa/models/products.dart';
 import 'package:front_paye_ton_kawa/modules/produits/views/indexProduct.dart';
+import 'package:front_paye_ton_kawa/utils/provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class LayoutProductList extends HookConsumerWidget {
@@ -10,9 +11,9 @@ class LayoutProductList extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productsController = ProductsController();
-
+    final token = ref.watch(tokenProvider);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 60),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
         children: [
           const SizedBox(
@@ -20,7 +21,7 @@ class LayoutProductList extends HookConsumerWidget {
           ),
           Expanded(
             child: FutureBuilder<List<Products>>(
-              future: productsController.getAllProducts(),
+              future: productsController.getAllProducts(token),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -33,7 +34,7 @@ class LayoutProductList extends HookConsumerWidget {
                 } else {
                   final listProducts = snapshot.data!;
                   return ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 2.0),
                     itemCount: listProducts.length,
                     itemBuilder: (context, index) {
                       final product = listProducts[index];
@@ -75,7 +76,7 @@ class LayoutProductList extends HookConsumerWidget {
                                     borderRadius: const BorderRadius.vertical(
                                         top: Radius.circular(10.0)),
                                     image: DecorationImage(
-                                      image: NetworkImage(
+                                      image: AssetImage(
                                           'assets/${product.name}.png'),
                                       fit: BoxFit.cover,
                                     ),
