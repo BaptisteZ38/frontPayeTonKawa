@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'package:front_paye_ton_kawa/config/constants/ipadress.dart';
 import 'package:front_paye_ton_kawa/models/products.dart';
 import 'package:http/http.dart' as http;
 
 class ProductsController {
   Future<List<Products>> getAllProducts() async {
-    String urlString = 'http://192.168.29.125:8080/api/v1/products';
+    String urlString = '$ipaddress/api/v1/products';
     final response = await http.get(Uri.parse(urlString));
     if (response.statusCode == 200) {
       // La requête a réussi
@@ -21,7 +22,7 @@ class ProductsController {
   }
 
    Future<Products> getProductsById(final String id_product) async {
-    String urlString = 'http://192.168.29.125:8080/api/v1/products/${id_product}';
+    String urlString = '$ipaddress/api/v1/products/${id_product}';
     final response = await http.get(Uri.parse(urlString));
     if (response.statusCode == 200) {
       // La requête a réussi

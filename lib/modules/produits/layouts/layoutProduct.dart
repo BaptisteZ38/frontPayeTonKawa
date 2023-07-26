@@ -17,7 +17,7 @@ class LayoutProduct extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final productsController = ProductsController();
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 80),
+      padding: const EdgeInsets.symmetric(horizontal: 60),
       child: Column(
         children: [
           const SizedBox(
@@ -37,32 +37,108 @@ class LayoutProduct extends HookConsumerWidget {
                   return const Text("Le tableau vide");
                 } else {
                   final product = snapshot.data!;
-                  return Column(
-                    children: [
-                      Text(
-                        product.name ?? "",
-                        style: Theme.of(context)
-                            .textTheme
-                            .displayMedium
-                            ?.copyWith(color: AppColor.primary80, fontSize: 15),
-                        textAlign: TextAlign.center,
-                      )
-                    ],
+                  Color indicatorColor = Colors.grey;
+                  if (product.color == "Bleu") {
+                    indicatorColor = Colors.blue;
+                  } else if (product.color == "Vert") {
+                    indicatorColor = Colors.green;
+                  } else if (product.color == "Rose") {
+                    indicatorColor = Colors.pink;
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Card(
+                          elevation: 4.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16.0),
+                            child: Image.network('assets/${product.name}.png',
+                                fit: BoxFit.cover),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                product.name ?? "",
+                                style: TextStyle(
+                                    fontSize: 24, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            const Text(
+                              "Stock : ",
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                            Container(
+                              width: 10.0,
+                              height: 10.0,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: product.stock != "0"
+                                    ? Colors.green
+                                    : Colors.red,
+                              ),
+                            ),
+                            const SizedBox(width: 8.0),
+                            Text(
+                              "${product.stock}",
+                              style: const TextStyle(fontSize: 16.0),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Description produit: ${product.description}',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Prix : ${product.price} €',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Container(
+                              width: 20.0,
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: indicatorColor,
+                              ),
+                            ),
+                            const SizedBox(width: 8.0),
+                            Text(
+                              "${product.color}",
+                              style: const TextStyle(fontSize: 16.0),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        DefaultButton(
+                          color: AppColor.primary80,
+                          text: "Réalité augmentée",
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => LayoutAR(nom: product.name ?? ""),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   );
                 }
               },
             ),
-          ),
-          DefaultButton(
-            color: AppColor.primary80,
-            text: "Réalité augmentée",
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => LayoutAR(),
-                ),
-              );
-            },
           ),
         ],
       ),

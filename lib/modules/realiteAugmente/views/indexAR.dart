@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:front_paye_ton_kawa/modules/realiteAugmente/layouts/layoutAR.dart';
 
 class IndexAR extends StatelessWidget {
@@ -27,4 +27,4 @@ class IndexAR extends StatelessWidget {
       ),
     );
   }
-}
+}*/
